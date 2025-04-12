@@ -40,7 +40,7 @@ class CursoController extends Controller
             'cur_descricao' => 'required|string',
             'cur_valor' => 'required|numeric',
             'cur_data_inscricoes_inicio' => 'required|date',
-            'cur_data_incricoes_fim' => 'required|date|after:cur_data_inscricoes_inicio',
+            'cur_data_inscricoes_fim' => 'required|date|after:cur_data_inscricoes_inicio',
             'cur_vagas' => 'required|integer|min:1',
             'cur_ativo' => 'boolean',
         ]);
@@ -60,7 +60,7 @@ class CursoController extends Controller
             'cur_descricao' => 'string',
             'cur_valor' => 'numeric',
             'cur_data_inscricoes_inicio' => 'date',
-            'cur_data_incricoes_fim' => 'date|after:cur_data_inscricoes_inicio',
+            'cur_data_inscricoes_fim' => 'date|after:cur_data_inscricoes_inicio',
             'cur_vagas' => 'integer|min:1',
             'cur_ativo' => 'boolean',
         ]);

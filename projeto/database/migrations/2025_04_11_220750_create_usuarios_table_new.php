@@ -9,11 +9,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('usu_usuario', function (Blueprint $table) {
+            //cadastro básico
             $table->id('usu_id');
             $table->string('usu_email')->unique();
             $table->string('usu_senha');
             $table->boolean('usu_is_adm')->default(false);
             $table->boolean('usu_ativo')->default(true);
+            //Informações do Aluno
+            $table->string('usu_nome')->nullable();
             $table->string('usu_cpf')->nullable();
             $table->text('usu_endereco')->nullable();
             $table->string('usu_empresa')->nullable();

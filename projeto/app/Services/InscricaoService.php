@@ -55,7 +55,7 @@ class InscricaoService
         
         // Verificar se o curso está no período de inscrição
         $now = now();
-        if ($now < $curso->cur_data_inscricoes_inicio || $now > $curso->cur_data_incricoes_fim) {
+        if ($now < $curso->cur_data_inscricoes_inicio || $now > $curso->cur_data_inscricoes_fim) {
             throw new \Exception('Este curso não está no período de inscrições.');
         }
         

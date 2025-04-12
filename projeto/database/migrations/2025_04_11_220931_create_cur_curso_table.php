@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('cur_descricao');
             $table->decimal('cur_valor', 10, 2);
             $table->datetime('cur_data_inscricoes_inicio');
-            $table->datetime('cur_data_incricoes_fim');
+            $table->datetime('cur_data_inscricoes_fim');
             $table->integer('cur_vagas');
             $table->boolean('cur_ativo')->default(true);
             $table->timestamps();

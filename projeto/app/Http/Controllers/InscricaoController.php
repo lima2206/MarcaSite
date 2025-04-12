@@ -43,7 +43,7 @@ class InscricaoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'cur_id' => 'required|exists:cur_curso,cur_id',
-            'alu_id' => 'required|exists:usu_usuario,usu_id',
+            'usu_id' => 'required|exists:usu_usuario,usu_id',
             'ins_status' => 'nullable|string',
             'valor_pago' => 'nullable|numeric',
         ]);
