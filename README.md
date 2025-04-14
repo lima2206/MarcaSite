@@ -12,6 +12,10 @@ O objetivo deste teste é criar um sistema de inscrições para cursos, com gere
 - **Vue.js (versão 3)** - (Diferencial)
 - **MVC (Modelo, Visão, Controlador)**
 
+## Diagrama do Banco de Dados
+
+![Alt text](Database_Diagram.png)
+
 ## Manual do Usuário
 
 ### Clonar o Repositório
@@ -73,3 +77,4 @@ Fiz um planejamento no Trello que foi o que me permitiu pelo menos finalizar 90%
 Infelizmente, não consegui integrar o gateway de pagamento devido a problemas de autenticação. Tentei por algumas horas, mas não consegui resolver (não ia pedir suporte no domingo, então deixei para finalizar as outras tarefas). No entanto, consegui aplicar os conceitos de MVC no backend e, apesar da bagunça e falta de planejamento, o frontend permanece estruturado.
 
 Obrigado pela oportunidade!
+
