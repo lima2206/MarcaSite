@@ -2,7 +2,7 @@
   <div class="drawer-selector-container">
     <label :for="id" class="input-label">{{ label }}</label>
     <select
-      :value="modelValue"
+      :value="computedModelValue"
       @change="$emit('update:modelValue', $event.target.value)"
       :id="id"
       class="drawer-selector"
@@ -15,7 +15,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   label: {
     type: String,
     required: true,
@@ -29,10 +31,12 @@ defineProps({
     required: true,
   },
   modelValue: {
-    type: String,
+    type: [String, null], 
     required: true,
   },
-});
+})
+
+const computedModelValue = computed(() => props.modelValue === null ? '' : props.modelValue)
 </script>
 
 <style scoped>

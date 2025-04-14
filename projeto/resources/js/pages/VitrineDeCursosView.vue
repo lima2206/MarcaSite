@@ -1,5 +1,6 @@
 <template>
   <HeaderComponent :buttonDisabled="true" @search="handleSearch" />
+  <IncricaoCursoModal v-model:isVisible="modalVisible" :curso="cursoEscolhido"/>
   <div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px;">
     <CursoCard
       v-for="curso in filteredCursos"
@@ -7,7 +8,7 @@
       :image="'https://picsum.photos/300/300?random=' + curso.cur_id"
       :title="curso.cur_nome"
       :valor="curso.cur_valor"
-      :onClick="() => verMais(curso)"
+      :onClick="() => comprarCurso(curso)"
     />
   </div>
 </template>
@@ -17,9 +18,12 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import CursoCard from '../components/cards/CursoCard.vue'
 import HeaderComponent from '../components/fixed/HeaderComponent.vue'
+import IncricaoCursoModal from '../components/modals/IncricaoCursoModal.vue'
 
 const cursos = ref([])
 const filteredCursos = ref([])
+const modalVisible = ref(false)
+const cursoEscolhido = ref()
 
 const fetchCursos = async () => {
   try {
@@ -33,8 +37,9 @@ const fetchCursos = async () => {
 
 onMounted(fetchCursos)
 
-const verMais = (curso) => {
-  console.log('Ver mais clicado:', curso)
+const comprarCurso = (curso) => {
+  cursoEscolhido.value = curso
+  modalVisible.value = true
 }
 
 const handleSearch = (searchQuery) => {
