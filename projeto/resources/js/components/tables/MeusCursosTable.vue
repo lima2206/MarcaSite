@@ -14,9 +14,9 @@
         <td>{{ inscricao.curso?.cur_nome }}</td>
         <td>{{ formatDate(inscricao.ins_data_inscricao) }}</td>
         <td>{{ inscricao.ins_status }}</td>
-        <td>R$ {{ inscricao.curso?.cur_valor != null ? Number(inscricao.curso.cur_valor).toFixed(2) : '0,00' }}</td>
+        <td>R$ {{ inscricao.valor_pago != null ? Number(inscricao.valor_pago).toFixed(2) : '0,00' }}</td>
         <td class="actions">
-          <button @click="hideCusto()" title="Ver Alunos">
+          <button title="Ver Alunos">
             <EyeIcon class="icon" />
           </button>
         </td>
@@ -35,9 +35,9 @@ const props = defineProps({
   inscricoes: Array
 })
 
-function hideCusto() {
-  
-}
+const emit = defineEmits(['ver-pagamento'])
+
+
 
 function formatDate(dateString) {
   if (!dateString) return 'Data inválida'

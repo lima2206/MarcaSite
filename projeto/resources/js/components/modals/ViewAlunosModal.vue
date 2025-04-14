@@ -28,7 +28,6 @@ watch(() => props.isVisible, async (visible) => {
     try {
       const res = await axios.get(`http://localhost:8000/api/inscricao/curso/${props.cursoId}`)
       inscricoes.value = res.data
-      console.log(inscricoes.value)
     } catch (error) {
       console.error('Erro ao buscar as inscricoes:', error)
     }

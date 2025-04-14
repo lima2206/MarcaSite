@@ -4,6 +4,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\InscricaoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MercadoPagoController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/usuario')->group(function () {
@@ -36,3 +37,10 @@ Route::prefix('/inscricao')->group(function () {
 
 
 Route::post('/login', [AuthController::class, 'login']);
+
+
+
+
+Route::post('/mercadopago/create-preference', [MercadoPagoController::class, 'createPreference']);
+Route::post('/mercadopago/webhook', [MercadoPagoController::class, 'webhook']);
+
