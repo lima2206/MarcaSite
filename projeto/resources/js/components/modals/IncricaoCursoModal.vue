@@ -113,10 +113,19 @@ const handleSubmit = async () => {
 
   try {
 
-    const usuarioData = { ...form.value }
-    delete usuarioData.curso
+    const usuarioData = {
+      usu_nome: form.value.nome,
+      usu_email: form.value.email,
+      usu_cpf: form.value.cpf,
+      usu_endereco: form.value.cpf,
+      usu_empresa: form.value.empresa,
+      usu_telefone: form.value.telefone,
+      usu_celular: form.value.celular,
+      usu_tipo: form.value.tipo,
+    }
 
-    await axios.put(`http://localhost:8000/api/usuario/${user.usu_id}`, usuarioData)
+    const response = await axios.put(`http://localhost:8000/api/usuario/${user.usu_id}`, usuarioData)
+    console.log(response)
 
     const inscricaoPayload = {
       usu_id: user.usu_id,

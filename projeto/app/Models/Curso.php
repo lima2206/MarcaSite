@@ -20,6 +20,8 @@ class Curso extends Model
         'cur_data_inscricoes_fim',
         'cur_vagas',
         'cur_ativo',
+        'cur_imagem',
+        'cur_material'
     ];
 
     protected $casts = [

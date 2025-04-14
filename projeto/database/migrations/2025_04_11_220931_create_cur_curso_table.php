@@ -19,6 +19,8 @@ return new class extends Migration
             $table->datetime('cur_data_inscricoes_fim');
             $table->integer('cur_vagas');
             $table->boolean('cur_ativo')->default(true);
+            $table->string('cur_imagem')->nullable();   
+            $table->string('cur_material')->nullable();   
             $table->timestamps();
         });
     }

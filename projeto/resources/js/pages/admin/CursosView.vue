@@ -1,12 +1,14 @@
 <template>
   <div class="header-container">
     <HeaderComponent :buttonText="'Novo Curso'" @button-click="openModalNovoCurso" @search="handleSearch"/>
-    <CreateCursoModal v-model:isVisible="isModalVisible" @cursoCreated="fetchCursos" />
+    <EditarCursoModal v-model:isVisible="isEditarCursoModalVisible" :curso="selectedCurso" @updated="fetchCursos"/>
+    <CreateCursoModal v-model:isVisible="isCreateCursoModalVisible" @cursoCreated="fetchCursos" />
+    <ViewAlunosModal v-model:isVisible="isViewAlunoModalVisible" :cursoId="selectedCurso?.cur_id" />
     <CursoTable
       :cursos="filteredCursos"
       @edit="editCurso"
       @delete="deleteCurso"
-      @view-students="viewAlunos"
+      @view-alunos="viewAlunos"
     />
   </div>
 </template>
@@ -18,10 +20,19 @@ import axios from 'axios'
 import HeaderComponent from '@/components/fixed/HeaderComponent.vue'
 import CursoTable from '@/components/tables/CursoTable.vue'
 import CreateCursoModal from '@/components/modals/CreateCursoModal.vue'
+import ViewAlunosModal from '../../components/modals/ViewAlunosModal.vue'
+import EditarCursoModal from '../../components/modals/EditarCursoModal.vue'
 
 const cursos = ref([])
 const filteredCursos = ref([])
-const isModalVisible = ref(false)
+
+const isCreateCursoModalVisible = ref(false)
+const isViewAlunoModalVisible = ref(false)
+const isEditarCursoModalVisible = ref(false)
+
+const selectedCurso = ref(null)
+
+
 
 const fetchCursos = async () => {
   try {
@@ -33,17 +44,18 @@ const fetchCursos = async () => {
   }
 }
 
+
 onMounted(async () => {
   await fetchCursos()
 })
 
 const openModalNovoCurso = () => {
-  isModalVisible.value = true
+  isCreateCursoModalVisible.value = true
 }
 
 const editCurso = (curso) => {
-  console.log('Edit', curso)
-  // You could open a modal here with curso data
+  isEditarCursoModalVisible.value = true
+  selectedCurso.value = curso
 }
 
 const deleteCurso = async (curso) => {
@@ -57,7 +69,8 @@ const deleteCurso = async (curso) => {
 }
 
 const viewAlunos = (curso) => {
-  console.log('Ver alunos do curso:', curso)
+  selectedCurso.value = curso
+  isViewAlunoModalVisible.value = true
 }
 
 const handleSearch = (searchQuery) => {

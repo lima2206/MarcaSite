@@ -21,7 +21,7 @@ class CursoService
         return Curso::where('cur_ativo', true)
             //Garante que os cursos estão em período de inscrição
             ->where('cur_data_inscricoes_inicio', '<=', now())
-            ->where('cur_data_incricoes_fim', '>=', now())
+            ->where('cur_data_inscricoes_fim', '>=', now())
             ->get();
     }
 

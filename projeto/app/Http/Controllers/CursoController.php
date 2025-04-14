@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\CursoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 
 class CursoController extends Controller
 {
@@ -43,13 +44,25 @@ class CursoController extends Controller
             'cur_data_inscricoes_fim' => 'required|date|after:cur_data_inscricoes_inicio',
             'cur_vagas' => 'required|integer|min:1',
             'cur_ativo' => 'boolean',
+            'cur_imagem' => 'image',
+            'cur_material' => 'file'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $curso = $this->cursoService->createCurso($request->all());
+        $data = $request->all();
+
+        if($request->hasFile('cur_imagem')) {
+            $data['cur_imagem'] = Storage::disk('public')->putFile('/', $request->file('cur_imagem'));
+        }
+
+        if($request->hasFile('cur_material')) {
+            $data['cur_material'] = Storage::disk('local')->putFile('/', $request->file('cur_material'));
+        }
+
+        $curso = $this->cursoService->createCurso($data);
         return response()->json($curso, 201);
     }
 
@@ -63,13 +76,25 @@ class CursoController extends Controller
             'cur_data_inscricoes_fim' => 'date|after:cur_data_inscricoes_inicio',
             'cur_vagas' => 'integer|min:1',
             'cur_ativo' => 'boolean',
+            'cur_imagem' => 'image',
+            'cur_material' => 'file'
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
-        $curso = $this->cursoService->updateCurso($id, $request->all());
+    
+        $data = $request->all();
+    
+        if ($request->hasFile('cur_imagem')) {
+            $data['cur_imagem'] = Storage::disk('public')->putFile('/', $request->file('cur_imagem'));
+        }
+    
+        if ($request->hasFile('cur_material')) {
+            $data['cur_material'] = Storage::disk('local')->putFile('/', $request->file('cur_material'));
+        }
+    
+        $curso = $this->cursoService->updateCurso($id, $data);
         return response()->json($curso);
     }
 

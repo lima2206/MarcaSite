@@ -1,7 +1,8 @@
 <template>
   <div class="header-container">
     <HeaderComponent :buttonText="'Novo Usuario'" @button-click="openModalNovoUsuario" @search="handleSearch"/>
-    <CreateUserModal v-model:isVisible="isModalVisible"  @userCreated="fetchUsuarios" />
+    <CreateUserModal v-model:isVisible="isCreateUserModalVisible"  @userCreated="fetchUsuarios" />
+    <EditarUserModal v-model:isVisible="isEditUserModalVisible" :usuario="selectedUsuario" @updated="fetchUsuarios"/>
     <UsuarioTable :users="filteredUsuarios" @edit="editUsuario" @delete="deleteUsuario" />
 
   </div>
@@ -13,10 +14,13 @@ import HeaderComponent from '@/components/fixed/HeaderComponent.vue'
 import UsuarioTable from '@/components/tables/UsuarioTable.vue'
 import axios from 'axios'
 import CreateUserModal from '@/components/modals/CreateUserModal.vue'
+import EditarUserModal from '../../components/modals/EditarUserModal.vue'
 
 const filteredUsuarios = ref([])
 const usuarios = ref([])
-const isModalVisible = ref(false)
+const isCreateUserModalVisible = ref(false)
+const selectedUsuario = ref(null)
+const isEditUserModalVisible = ref(false)
 
 const fetchUsuarios = async () => {
   try {
@@ -33,11 +37,12 @@ onMounted(async () => {
 })
 
 const openModalNovoUsuario = () => {
-  isModalVisible.value = true
+  isCreateUserModalVisible.value = true
 }
 
 const editUsuario = (usuario) => {
-  console.log('Edit', usuario)
+  selectedUsuario.value = usuario
+  isEditUserModalVisible.value = true
 }
 
 const deleteUsuario = async (usuario) => {
