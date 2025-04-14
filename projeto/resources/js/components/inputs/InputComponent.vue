@@ -31,8 +31,8 @@ defineProps({
     required: true,
   },
   modelValue: {
-    type: String,
-    required: true,
+    type: [String, Number], // ✅ aceita String e Number
+    default: '',
   },
 });
 </script>
@@ -43,7 +43,6 @@ defineProps({
 }
 
 .input-label {
-
   display: block;
 }
 
@@ -53,6 +52,5 @@ defineProps({
   border: 1px solid #5f5f5f;
   border-radius: 4px;
   background-color: rgb(221, 221, 221);
-
 }
 </style>

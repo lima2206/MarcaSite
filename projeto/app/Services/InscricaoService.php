@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Models\Inscricao;
 use App\Models\Curso;
-use App\Models\Usuario;
-use Illuminate\Support\Facades\DB;
 
 class InscricaoService
 {

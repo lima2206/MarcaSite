@@ -8,24 +8,54 @@
         <HomeIcon class="icon" />
         <span>Dashboard</span>
       </router-link>
-      <router-link to="/cursos" class="sidebar-item">
-        <CalendarIcon class="icon" />
-        <span>Cursos</span>
-      </router-link>
-      <router-link to="/usuarios" class="sidebar-item">
-        <UsersIcon class="icon" />
-        <span>Usuários</span>
-      </router-link>
-      <router-link to="/configuracoes" class="sidebar-item">
+      
+      <template v-if="usuario?.usu_is_adm">
+        <router-link to="/cursos" class="sidebar-item">
+          <CalendarIcon class="icon" />
+          <span>Cursos</span>
+        </router-link>
+        <router-link to="/usuarios" class="sidebar-item">
+          <UsersIcon class="icon" />
+          <span>Usuários</span>
+        </router-link>
+      </template>
+
+      <template v-else>
+        <router-link to="/meuscursos" class="sidebar-item">
+          <CalendarIcon class="icon" />
+          <span>Meus Cursos</span>
+        </router-link>
+        <router-link to="/vitrine" class="sidebar-item">
+          <UsersIcon class="icon" />
+          <span>Vitrine de Cursos</span>
+        </router-link>
+      </template>
+
+      <router-link to="/configuracoes" class="sidebar-item" style="margin-bottom: 200px ;">
         <CogIcon class="icon" />
         <span>Configurações</span>
       </router-link>
+    <ButtonComponent @click="handleLogout"> Logout </ButtonComponent>
     </div>
   </aside>
 </template>
 
 <script setup>
 import { HomeIcon, CalendarIcon, UsersIcon, CogIcon } from '@heroicons/vue/outline';
+import ButtonComponent from '../buttons/ButtonComponent.vue';
+import { useUserStore } from '../../stores/user';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const userStore = useUserStore()
+
+const usuario = userStore.user
+
+function handleLogout() {
+  userStore.logout()
+  router.push('/login')
+}
+
 </script>
 
 <style scoped>

@@ -18,8 +18,7 @@ import ButtonComponent from '@/components/buttons/ButtonComponent.vue'
 
 const props = defineProps({
   buttonText: {
-    type: String,
-    required: true
+    type: String
   },
   buttonDisabled: {
     type: Boolean,

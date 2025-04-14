@@ -1,5 +1,5 @@
 <template>
-  <table class="course-table">
+  <table class="curso-table">
     <thead>
       <tr>
         <th>Nome</th>
@@ -11,12 +11,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(curso, index) in courses" :key="index">
-        <td>{{ curso.name }}</td>
-        <td>R$ {{ curso.price.toFixed(2) }}</td>
-        <td>{{ curso.active ? 'Sim' : 'Não' }}</td>
-        <td>{{ curso.registrationPeriodStart }} até {{ curso.registrationPeriodEnd }}</td>
-        <td>{{ curso.vagas - curso.enrolledStudents.length }}</td>
+      <tr v-for="(curso, index) in cursos" :key="index">
+        <td>{{ curso.cur_nome }}</td>
+        <td>R$ {{ curso.cur_valor != null ? Number(curso.cur_valor).toFixed(2) : '0,00' }}</td>
+        <td>{{ curso.cur_ativo ? 'Sim' : 'Não' }}</td>
+        <td>{{ formatDate(curso.cur_data_inscricoes_inicio) }} até {{ formatDate(curso.cur_data_inscricoes_fim) }}</td>
+        <td>{{ curso.cur_vagas - (curso.alunos?.length || 0) }}</td>
         <td class="actions">
           <button @click="viewAlunos(curso)" title="Ver Alunos">
             <UserGroupIcon class="icon" />
@@ -35,12 +35,13 @@
 
 <script setup>
 import { PencilIcon, TrashIcon, UserGroupIcon } from '@heroicons/vue/solid'
+import { format } from 'date-fns'
 
 const props = defineProps({
-  courses: Array
+  cursos: Array
 })
 
-const emit = defineEmits(['edit', 'delete', 'view-students'])
+const emit = defineEmits(['edit', 'delete', 'view-alunos'])
 
 function editCurso(curso) {
   emit('edit', curso)
@@ -51,25 +52,34 @@ function deleteCurso(curso) {
 }
 
 function viewAlunos(curso) {
-  emit('view-students', curso)
+  emit('view-alunos', curso)
+}
+
+function formatDate(dateString) {
+  if (!dateString) return 'Data inválida'
+  try {
+    return format(new Date(dateString), 'dd/MM/yyyy')
+  } catch {
+    return dateString
+  }
 }
 </script>
 
 <style scoped>
-.course-table {
+.curso-table {
   width: 100%;
   border-collapse: collapse;
   font-family: sans-serif;
 }
 
-.course-table th,
-.course-table td {
+.curso-table th,
+.curso-table td {
   padding: 12px;
   text-align: center;
   border-bottom: 1px solid #ddd;
 }
 
-.course-table th {
+.curso-table th {
   font-weight: bold;
 }
 

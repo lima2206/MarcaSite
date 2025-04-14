@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isVisible" class="modal-overlay">
+<div v-if="props.isVisible" class="modal-overlay">
     <div class="modal-content">
-      <h2>Nova Usuário</h2>
+      <h2>Novo Usuário</h2>
       <p>Detalhes do Usuário</p>
 
       <form @submit.prevent="handleSubmit">
@@ -10,7 +10,7 @@
             <InputComponent
               label="Nome"
               id="name"
-              v-model="userData.name"
+              v-model="userData.usu_nome"
             />
             <span v-if="errors.name" class="error">{{ errors.name }}</span>
           </div>
@@ -19,7 +19,7 @@
               label="Tipo de Usuário"
               id="role"
               :options="roles"
-              v-model="userData.role"
+              v-model="userData.tipo"
             />
             <span v-if="errors.role" class="error">{{ errors.role }}</span>
           </div>
@@ -29,7 +29,7 @@
           label="Email"
           id="email"
           type="email"
-          v-model="userData.email"
+          v-model="userData.usu_email"
         />
         <span v-if="errors.email" class="error">{{ errors.email }}</span>
 
@@ -39,7 +39,7 @@
               label="Senha"
               id="password"
               type="password"
-              v-model="userData.password"
+              v-model="userData.usu_senha"
             />
             <span v-if="errors.password" class="error">{{ errors.password }}</span>
           </div>
@@ -64,53 +64,76 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import InputComponent from '../inputs/InputComponent.vue';
-import DrawerSelector from '../inputs/DrawerSelector.vue';
-import ButtonComponent from '../buttons/ButtonComponent.vue';
+import { ref } from 'vue'
+import axios from 'axios'
+import InputComponent from '../inputs/InputComponent.vue'
+import DrawerSelector from '../inputs/DrawerSelector.vue'
+import ButtonComponent from '../buttons/ButtonComponent.vue'
 
-const isVisible = ref(true);
+const props = defineProps({ isVisible: Boolean })
+const emit = defineEmits(['update:isVisible', 'userCreated'])
+
 const userData = ref({
-  name: '',
-  email: '',
-  password: '',
+  usu_nome: '',
+  usu_email: '',
+  usu_senha: '',
   confirmPassword: '',
-  role: '',
-});
+  tipo: '',
+  usu_is_adm: false
+})
 
-const errors = ref({});
+const errors = ref({})
 
-const roles = ['Administrador', 'Aluno'];
+const roles = ['Administrador', 'Aluno']
 
-const handleSubmit = () => {
-  errors.value = {};
+const handleSubmit = async () => {
+  errors.value = {}
 
-  if (!userData.value.name) errors.value.name = 'Nome é obrigatório.';
-  if (!userData.value.email) errors.value.email = 'Email é obrigatório.';
-  if (!userData.value.role) errors.value.role = 'Tipo de usuário é obrigatório.';
-  if (!userData.value.password) errors.value.password = 'Senha é obrigatória.';
-  if (!userData.value.confirmPassword) errors.value.confirmPassword = 'Confirme a senha.';
+  if (!userData.value.usu_nome) errors.value.name = 'Nome é obrigatório.'
+  if (!userData.value.usu_email) errors.value.email = 'Email é obrigatório.'
+  if (!userData.value.tipo) errors.value.role = 'Tipo de usuário é obrigatório.'
+  if (!userData.value.usu_senha) errors.value.password = 'Senha é obrigatória.'
+  if (userData.value.usu_senha && userData.value.usu_senha.length < 6) {
+    errors.value.password = 'A senha deve ter pelo menos 6 caracteres.'
+  }
+  if (!userData.value.confirmPassword) errors.value.confirmPassword = 'Confirme a senha.'
   if (
-    userData.value.password &&
+    userData.value.usu_senha &&
     userData.value.confirmPassword &&
-    userData.value.password !== userData.value.confirmPassword
+    userData.value.usu_senha !== userData.value.confirmPassword
   ) {
-    errors.value.confirmPassword = 'As senhas não coincidem.';
+    errors.value.confirmPassword = 'As senhas não coincidem.'
   }
 
-  if (Object.keys(errors.value).length > 0) {
-    return;
+  if (Object.keys(errors.value).length > 0) return
+
+  // Se o tipo for adm is adm é true
+  userData.value.usu_is_adm = userData.value.tipo === 'Administrador'
+
+  const request ={
+      usu_nome: userData.value.usu_nome,
+      usu_email: userData.value.usu_email,
+      usu_senha: userData.value.usu_senha,
+      usu_is_adm: userData.value.usu_is_adm
+    }
+
+  try {
+    await axios.post('http://127.0.0.1:8000/api/usuario', request)
+
+    console.log('Usuário criado com sucesso.')
+
+    emit('userCreated')
+    closeModal()
+  } catch (error) {
+    console.error('Erro ao criar usuário:', error.response?.data || error)
   }
-
-  //handle submit
-
-  console.log('Usuário criado: ', userData.value);
-  closeModal();
-};
+}
 
 const closeModal = () => {
-  isVisible.value = false;
-};
+  emit('update:isVisible', false)
+}
+
+
 </script>
 
 <style scoped>
@@ -124,6 +147,7 @@ const closeModal = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 .modal-content {

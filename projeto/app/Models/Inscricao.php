@@ -9,7 +9,7 @@ class Inscricao extends Model
 {
     use HasFactory;
 
-    protected $table = 'inscricoes';
+    protected $table = 'ins_inscricoes';
 
     protected $fillable = [
         'cur_id',

@@ -18,6 +18,7 @@ class Usuario extends Authenticatable
         'usu_senha',
         'usu_is_adm',
         'usu_ativo',
+        'usu_nome',
         'usu_cpf',
         'usu_endereco',
         'usu_empresa',

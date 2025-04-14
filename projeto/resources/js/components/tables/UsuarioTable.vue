@@ -2,6 +2,7 @@
   <table class="user-table">
     <thead>
       <tr>
+        <th>Nome</th>
         <th>Email</th>
         <th>Tipo</th>
         <th>Ativo</th>
@@ -10,6 +11,7 @@
     </thead>
     <tbody>
       <tr v-for="(user, index) in users" :key="index">
+        <td>{{ user.usu_nome }}</td>
         <td>{{ user.usu_email }}</td>
         <td>{{ user.usu_is_adm ? 'Administrador' : 'Aluno' }}</td>
         <td>{{ user.usu_ativo ? 'Sim' : 'Não' }}</td>
@@ -17,7 +19,7 @@
           <button @click="editUser(user)" title="Editar">
             <PencilIcon class="icon" />
           </button>
-          <button @click="deleteUser(user)" title="Excluir">
+          <button @click="deleteUsuario(user)" title="Excluir">
             <TrashIcon class="icon" />
           </button>
         </td>
@@ -29,17 +31,20 @@
 <script setup>
 import { PencilIcon, TrashIcon } from '@heroicons/vue/solid'
 
+const emit = defineEmits(['edit', 'delete'])
+
 const props = defineProps({
   users: Array
 })
 
 function editUser(user) {
-  alert(`Edit: ${user.name}`)
+  emit('edit', user)
 }
 
-function deleteUser(user) {
-  alert(`Delete: ${user.name}`)
+function deleteUsuario(user) {
+  emit('delete', user)
 }
+
 </script>
 
 <style scoped>

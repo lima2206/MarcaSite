@@ -1,5 +1,5 @@
 <template>
-  <button class="custom-button"  :class="{ light: isLight, dark: !isLight }"  :disabled="disabled" @click="handleClick">
+  <button v-if="!disabled" class="custom-button"  :class="{ light: isLight, dark: !isLight }" @click="handleClick">
     <slot />
   </button>
 </template>
