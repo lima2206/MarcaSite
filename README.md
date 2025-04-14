@@ -16,6 +16,10 @@ O objetivo deste teste é criar um sistema de inscrições para cursos, com gere
 
 ![Alt text](Database_Diagram.png)
 
+## Backlog
+
+[Backlog.pdf](Backlog.pdf)
+
 ## Manual do Usuário
 
 ### Clonar o Repositório
