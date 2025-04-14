@@ -48,7 +48,8 @@ const handleSearch = (query) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
+  z-index: 9999;
+  background-color: #f5f5f5
 }
 
 .header-left,

@@ -3,7 +3,7 @@
     <HeaderComponent :buttonText="'Novo Curso'" @button-click="openModalNovoCurso" @search="handleSearch"/>
     <EditarCursoModal v-model:isVisible="isEditarCursoModalVisible" :curso="selectedCurso" @updated="fetchCursos"/>
     <CreateCursoModal v-model:isVisible="isCreateCursoModalVisible" @cursoCreated="fetchCursos" />
-    <ViewAlunosModal v-model:isVisible="isViewAlunoModalVisible" :cursoId="selectedCurso?.cur_id" />
+    <ViewAlunosModal v-model:isVisible="isViewAlunoModalVisible" :curso="selectedCurso" />
     <CursoTable
       :cursos="filteredCursos"
       @edit="editCurso"

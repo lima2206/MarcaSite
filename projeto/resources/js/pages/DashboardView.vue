@@ -1,9 +1,7 @@
 <template>
   <div>
     <h1>Dashboard</h1>
-    <p>Welcome to the dashboard page!</p>
-
-    <p>Here is your data:</p>
+    <p>Dados do usuario logado para Debug:</p>
     <ul>
       <li v-for="[key, value] in Object.entries(userStore.user || {})">
         {{ key }} : {{ value === null ? 'null' : value }}
